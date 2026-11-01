@@ -24,12 +24,12 @@ export interface MovieCardProps {
   onOpen?: (movie: Movie) => void;
 }
 
-function formatDuration(totalMin: number): string {
+/* function formatDuration(totalMin: number): string {
   const h = Math.floor(totalMin / 60);
   const m = totalMin % 60;
   if (h === 0) return `${m} мин`;
   return `${h} ч ${String(m).padStart(2, "0")} мин`;
-}
+} */
 
 function ratingTone(rating: number): "high" | "mid" | "low" {
   if (rating >= 7.5) return "high";
@@ -45,7 +45,7 @@ function MovieCardBase({
   onTrailerClick,
   onOpen,
 }: MovieCardProps) {
-  const { title, release_date, /* durationMin, ageRating, */ vote_average, genre_ids, poster_path } = movie;
+  const { title,/* release_date,  durationMin, ageRating, */ vote_average, genre_ids, poster_path } = movie;
 
   return (
     <article className="movie-card">
