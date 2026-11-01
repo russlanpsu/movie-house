@@ -1,0 +1,174 @@
+/* ===============================
+   БАЗОВЫЕ СТИЛИ (MOBILE FIRST)
+   =============================== */
+
+/* Сброс и базовые настройки */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #1f2937;
+  background-color: #f9fafb;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Контейнер приложения: колонка на всю высоту экрана */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh; /* корректная высота с учётом адресной строки мобильных браузеров */
+}
+
+/* ---------- Шапка ---------- */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.app-header__inner {
+  display: flex;
+  flex-direction: column; /* мобильный вариант: логотип сверху, меню снизу */
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.app-logo {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: #1f2937;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.app-logo:hover {
+  color: #2563eb;
+}
+
+/* Мобильное меню: горизонтальный скролл, если ссылки не помещаются */
+.app-nav {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* скрыть скроллбар в Firefox */
+}
+
+.app-nav::-webkit-scrollbar {
+  display: none; /* скрыть скроллбар в WebKit */
+}
+
+.app-nav__link {
+  flex-shrink: 0;
+  padding: 0.5rem 0.875rem;
+  font-size: 0.9375rem;
+  color: #374151;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.app-nav__link:hover {
+  background-color: #f3f4f6;
+}
+
+/* Подсветка активной ссылки (NavLink добавляет класс .active) */
+.app-nav__link.active {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+/* ---------- Основной контент ---------- */
+.app-main {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* ---------- Подвал ---------- */
+.app-footer {
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.app-footer p {
+  margin: 0;
+}
+
+/* ===============================
+   ПЛАНШЕТЫ (≥ 640px)
+   =============================== */
+@media (min-width: 640px) {
+  .app-header__inner {
+    flex-direction: row;      /* логотип и меню в одну строку */
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .app-nav {
+    overflow-x: visible;
+  }
+
+  .app-main {
+    padding: 1.5rem;
+  }
+}
+
+/* ===============================
+   ДЕСКТОПЫ (≥ 1024px)
+   =============================== */
+@media (min-width: 1024px) {
+  .app-header__inner {
+    padding: 1rem 2rem;
+  }
+
+  .app-nav {
+    gap: 0.75rem;
+  }
+
+  .app-main {
+    padding: 2rem;
+  }
+}
+
+/* ===============================
+   ДОСТУПНОСТЬ
+   =============================== */
+
+/* Видимый фокус для клавиатурной навигации */
+.app-nav__link:focus-visible,
+.app-logo:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* Уважаем настройку «уменьшить движение» */
+@media (prefers-reduced-motion: reduce) {
+  .app-nav__link {
+    transition: none;
+  }
+}
