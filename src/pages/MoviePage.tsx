@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 // import { tmdb } from '../api/tmdb';
 // import { MovieDetails } from '../components/MovieDetails';
 import { tmdb } from '../api/tmdb/client';
-import type { MovieDetails as TmdbMovieDetails} from 'tmdb-ts';
 import { MovieDetails, type MovieDetailsProps } from '../components/MovieDetails';
 
 export function MoviePage() {
