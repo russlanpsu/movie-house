@@ -1,0 +1,187 @@
+.container {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(2px);
+  opacity: 0.25;
+  z-index: 0;
+}
+
+.backdropOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, var(--background, #fff));
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+.mainInfo {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+.poster {
+  width: 300px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.info {
+  flex: 1;
+  min-width: 280px;
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: 2rem;
+}
+
+.year {
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+.originalTitle {
+  margin: 0 0 8px;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.tagline {
+  font-style: italic;
+  color: #666;
+  margin: 8px 0 16px;
+}
+
+.rating {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.ratingValue {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #f5c518;
+}
+
+.ratingCount {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.metaList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+  display: grid;
+  gap: 6px;
+}
+
+.genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.genre {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.08);
+  font-size: 0.85rem;
+}
+
+.links {
+  display: flex;
+  gap: 16px;
+}
+
+.links a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+.section {
+  margin-top: 32px;
+}
+
+.section h2 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+}
+
+.castList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.castItem {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.castPhoto,
+.castPhotoPlaceholder {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #eee;
+}
+
+.castName {
+  margin: 0;
+  font-weight: 600;
+}
+
+.castCharacter {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.companiesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.companiesList li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.companyLogo {
+  height: 32px;
+  object-fit: contain;
+}

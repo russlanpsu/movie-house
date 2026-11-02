@@ -1,4 +1,3 @@
-import { memo } from "react";
 import "./MovieCard.css";
 import type { Movie } from "tmdb-ts";
 
@@ -37,7 +36,7 @@ function ratingTone(rating: number): "high" | "mid" | "low" {
   return "low";
 }
 
-function MovieCardBase({
+export function MovieCard({
   movie,
   isFavorite = false,
   maxGenres = 2,
@@ -45,20 +44,25 @@ function MovieCardBase({
   onTrailerClick,
   onOpen,
 }: MovieCardProps) {
-  const { title,/* release_date,  durationMin, ageRating, */ vote_average, genre_ids, poster_path } = movie;
+  const { title, /*release_date,  durationMin, ageRating, */ vote_average, genre_ids, poster_path, id } = movie;
 
   return (
     <article className="movie-card">
       <div className="movie-card__poster">
         {poster_path ? (
-          <img
-            className="movie-card__img"
-            src={`https://ancient-dream-2e3d.ruslanpsu.workers.dev/t/p/w500/${poster_path}`}
-            alt={`Постер фильма «${title}»`}
-            loading="lazy"
-            width={260}
-            height={340}
-          />
+          <a
+            href={`/film/${id}`}
+          >
+            <img
+              className="movie-card__img"
+              src={`https://ancient-dream-2e3d.ruslanpsu.workers.dev/t/p/w500/${poster_path}`}
+              alt={`Постер фильма «${title}»`}
+              loading="lazy"
+              // width={260}
+              width={"100%"}
+              height={340}
+            />
+          </a>
         ) : (
           <span className="movie-card__placeholder" aria-hidden="true">
             {title.trim().charAt(0).toUpperCase()}
@@ -137,5 +141,5 @@ function MovieCardBase({
   );
 }
 
-export const MovieCard = memo(MovieCardBase);
-export default MovieCard;
+// export const MovieCard = memo(MovieCardBase);
+// export default MovieCard;
