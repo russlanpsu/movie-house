@@ -1,5 +1,3 @@
-// api/tmdb/client.ts
-
 import { TMDB } from 'tmdb-ts';
 
 const proxyFetch: typeof fetch = async (input, init) => {
@@ -7,19 +5,49 @@ const proxyFetch: typeof fetch = async (input, init) => {
 
   const proxyUrl = new URL(
     `${originalUrl.pathname}${originalUrl.search}`,
-    //window.location.origin
     "https://ancient-dream-2e3d.ruslanpsu.workers.dev"
   );
 
   const headers = new Headers(init?.headers);
-
-  // Авторизацию будет добавлять backend
   headers.delete('Authorization');
 
-  return fetch(proxyUrl, {
+  const response = await fetch(proxyUrl, {
     ...init,
     headers,
   });
+
+  // Клонируем, чтобы прочитать тело, не «съев» оригинал
+  const cloned = response.clone();
+
+  try {
+    // Пытаемся прочитать как JSON — это типичный формат TMDB
+    const data = await cloned.json();
+
+    console.log('[TMDB]', response.status, originalUrl.pathname, {
+      url: proxyUrl.toString(),
+      ok: response.ok,
+      status: response.status,
+      data,
+    });
+  } catch (err) {
+    // Если тело не JSON (например, HTML-страница ошибки прокси),
+    // читаем как текст — но уже из другой копии, т.к. cloned.json() мог
+    // частично потребить поток
+    try {
+      const clonedText = response.clone();
+      const text = await clonedText.text();
+      console.log('[TMDB]', response.status, originalUrl.pathname, {
+        url: proxyUrl.toString(),
+        ok: response.ok,
+        status: response.status,
+        text: text.slice(0, 1000), // ограничим размер лога
+      });
+    } catch (textErr) {
+      console.warn('[TMDB] Не удалось прочитать тело ответа:', textErr);
+    }
+  }
+
+  return response;
 };
 
 export const tmdb = new TMDB('proxy-mode', {
