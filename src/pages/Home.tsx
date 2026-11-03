@@ -15,6 +15,7 @@ function Home() {
     (async() => {
       const popularMovies = (await tmdb.movies.popular()).results;
       setPopularMovies(popularMovies);
+      console.log({popularMovies});
       const film = await tmdb.movies.details(155, ['credits']);
       console.log({film});
     })();
