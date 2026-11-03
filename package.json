@@ -16,7 +16,8 @@
     "react-dom": "^19.3.1",
     "react-router-dom": "^7.18.5",
     "tmdb-ts": "^2.3.0",
-    "zod": "^4.6.7"
+    "zod": "^4.6.7",
+    "zustand": "^5.0.16"
   },
   "devDependencies": {
     "@types/node": "^24.19.2",

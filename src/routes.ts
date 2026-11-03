@@ -3,6 +3,7 @@ import Layout from './components/Layout.tsx'
 import About from './pages/About.tsx'
 import Home from './pages/Home.tsx'
 import { MoviePage } from './pages/MoviePage.tsx'
+import FavoritesPage from './pages/FavoritesPage.tsx'
 
 export const router = createBrowserRouter([
   {
@@ -11,7 +12,8 @@ export const router = createBrowserRouter([
     children: [
       { index: true, Component: Home },
       { path: 'about', Component: About },
-       { path: 'film/:id', Component: MoviePage }
+      { path: 'film/:id', Component: MoviePage },
+      { path: 'favorites', Component: FavoritesPage}
     ],
   },
 ])

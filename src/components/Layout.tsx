@@ -9,6 +9,7 @@ function Layout() {
         <div className="app-header__inner">
           <nav className="app-nav">
             <NavLink to="/" end className="app-nav__link">Home</NavLink>
+            <NavLink to="/favorites" end className="app-nav__link">Favorites</NavLink>
             <NavLink to="/about" className="app-nav__link">About</NavLink>
           </nav>
         </div>

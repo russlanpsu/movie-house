@@ -1,5 +1,6 @@
+import { useFavoritesStore } from "../stores/favoritesStore";
 import "./MovieCard.css";
-import type { Movie } from "tmdb-ts";
+import type { Movie, MovieDetails } from "tmdb-ts";
 
 /* export interface Movie {
   id: string | number;
@@ -12,15 +13,16 @@ import type { Movie } from "tmdb-ts";
   posterUrl?: string;
 } */
 
-export interface MovieCardProps {
-  movie: Movie;
+export interface MovieCardProps<T = Movie | MovieDetails> {
+  // movie: Movie;
+  movie: T;
   isFavorite?: boolean;
   /** Максимум жанров в карточке (по умолчанию 2) */
   maxGenres?: number;
-  onToggleFavorite?: (movie: Movie) => void;
-  onTrailerClick?: (movie: Movie) => void;
+  onToggleFavorite?: (movie: T) => void;
+  onTrailerClick?: (movie: T) => void;
   /** Клик по постеру или названию, например переход на страницу фильма */
-  onOpen?: (movie: Movie) => void;
+  onOpen?: (movie: T) => void;
 }
 
 /* function formatDuration(totalMin: number): string {
@@ -38,13 +40,21 @@ function ratingTone(rating: number): "high" | "mid" | "low" {
 
 export function MovieCard({
   movie,
-  isFavorite = false,
+  // isFavorite = false,
   maxGenres = 2,
   onToggleFavorite,
   onTrailerClick,
   onOpen,
 }: MovieCardProps) {
-  const { title, /*release_date,  durationMin, ageRating, */ vote_average, genre_ids, poster_path, id } = movie;
+  const { title, /*release_date,  durationMin, ageRating, */ vote_average,/*  genre_ids,  genres, */ poster_path, id } = movie;
+
+  /* const isFavoriteFn = useFavoritesStore((state) => state.isFavorite);
+  const isFavorite = isFavoriteFn(movie.id); */
+  const isFavorite = useFavoritesStore((state) =>
+    state.favorites.includes(movie.id)
+  );
+  //TODO: для Movie сделать отображение наименований жанров
+  const genres = 'genres' in movie ? movie.genres : [];
 
   return (
     <article className="movie-card">
@@ -80,6 +90,7 @@ export function MovieCard({
           type="button"
           className="movie-card__fav"
           aria-label={isFavorite ? "Убрать из избранного" : "Добавить в избранное"}
+          title={isFavorite ? "Убрать из избранного" : "Добавить в избранное"}
           aria-pressed={isFavorite}
           onClick={() => onToggleFavorite?.(movie)}
         >
@@ -116,11 +127,20 @@ export function MovieCard({
           </span> */}
         </div>
 
-        {genre_ids.length > 0 && (
+        {/* {genre_ids.length > 0 && (
           <ul className="movie-card__genres">
             {genre_ids.slice(0, maxGenres).map((genre) => (
               <li key={genre} className="movie-card__chip">
                 {genre}
+              </li>
+            ))}
+          </ul>
+        )} */}
+        {genres.length > 0 && (
+          <ul className="movie-card__genres">
+            {genres.slice(0, maxGenres).map((genre) => (
+              <li key={genre.id} className="movie-card__chip">
+                {genre.name}
               </li>
             ))}
           </ul>

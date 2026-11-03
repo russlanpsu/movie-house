@@ -3,6 +3,7 @@ import type { Movie } from "tmdb-ts";
 import {MovieCard} from "../components/MovieCard";
 import "./Home.css"
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useFavoritesStore } from "../stores/favoritesStore";
 
 function Home() {
   const {
@@ -24,6 +25,13 @@ function Home() {
 
   const popularMovies: Movie[] = data?.pages.flatMap((page) => page.results) ?? [];
 
+  /* const onToggleFavoriteHandler = (movie: Movie) => {
+    console.log('Toggle favorite: ', movie);
+  } */
+
+  const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
+  // const isFavorite = useFavoritesStore((state) => state.isFavorite);
+
   return (
     <section>
       <h1>Home</h1>
@@ -36,7 +44,13 @@ function Home() {
       {isLoading && <p>Загрузка фильмов...</p>}
       <div className="movie-list">
         {popularMovies.map(movie =>
-          <MovieCard key={movie.id} movie={movie}/>
+          <MovieCard
+            key={movie.id}
+            // isFavorite={isFavorite(movie.id)}
+            // movie={{...movie, genres: [{id:1, name: 'Drama'}, {id:2, name: 'Thriller'}]}}
+            movie={movie}
+            onToggleFavorite={movie =>toggleFavorite(movie.id)}
+          />
         )}
       </div>
 
