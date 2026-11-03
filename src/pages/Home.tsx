@@ -47,7 +47,7 @@ function Home() {
           <MovieCard key={movie.id} movie={movie}/>
         )}
       </div>
-
+      {popularMovies.length}
       {hasMore && (
         <button onClick={loadMore} disabled={isLoading}>
           {isLoading ? 'Загрузка…' : 'Показать ещё'}
