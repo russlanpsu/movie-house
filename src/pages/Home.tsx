@@ -25,8 +25,8 @@ function Home() {
         console.log('After run api...');
         setPopularMovies(popularMovies);
         console.log({popularMovies});
-        const film = await tmdb.movies.details(155, ['credits']);
-        console.log({film});
+        /* const film = await tmdb.movies.details(155, ['credits']);
+        console.log({film}); */
       } catch (err) {
         console.error('Не удалось загрузить популярные фильмы:', err);
         setError('Не удалось загрузить список фильмов, попробуйте позже.');
