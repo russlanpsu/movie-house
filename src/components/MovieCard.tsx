@@ -59,7 +59,7 @@ export function MovieCard({
               alt={`Постер фильма «${title}»`}
               loading="lazy"
               // width={260}
-              width={"100%"}
+              // width={"100%"}
               height={340}
             />
           </a>

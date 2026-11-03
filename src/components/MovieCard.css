@@ -17,6 +17,7 @@
   color: var(--mc-text);
   font-family: Manrope, system-ui, sans-serif;
   transition: transform 0.2s ease;
+  border: 5px solid green;
 }
 
 .movie-card:hover {
