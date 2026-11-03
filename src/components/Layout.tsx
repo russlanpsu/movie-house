@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import "./Layout.css";
-import { DebugConsole } from './DebugConsole';
+// import { DebugConsole } from './DebugConsole';
 
 function Layout() {
   return (
@@ -19,7 +19,7 @@ function Layout() {
        <footer className="app-footer">
         <p>© 2026 Мой сайт</p>
       </footer>
-      <DebugConsole/>
+      {/* <DebugConsole/> */}
     </div>
   )
 }

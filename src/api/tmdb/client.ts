@@ -29,7 +29,7 @@ const proxyFetch: typeof fetch = async (input, init) => {
       status: response.status,
       data,
     });
-  } catch (err) {
+  } catch {
     // Если тело не JSON (например, HTML-страница ошибки прокси),
     // читаем как текст — но уже из другой копии, т.к. cloned.json() мог
     // частично потребить поток
