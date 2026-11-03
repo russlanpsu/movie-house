@@ -1,6 +1,6 @@
 import { TMDB } from 'tmdb-ts';
 
-/* const proxyFetch: typeof fetch = async (input, init) => {
+const proxyFetch: typeof fetch = async (input, init) => {
   const originalUrl = new URL(input.toString());
 
   const proxyUrl = new URL(
@@ -52,9 +52,9 @@ import { TMDB } from 'tmdb-ts';
 
 export const tmdb = new TMDB('proxy-mode', {
   fetch: proxyFetch,
-}); */
-
-//ee1bba2f189794fb491503c38616c05e
-export const tmdb = new TMDB('eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlZTFiYmEyZjE4OTc5NGZiNDkxNTAzYzM4NjE2YzA1ZSIsIm5iZiI6MTc5MzQ4NTQ1OS4xODMsInN1YiI6IjZhZTY2YTkzYjllZjllZDQwMmM4YzNlMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.b0f3fUxRlkyy1qJAGzoxZSWdk4iGHlcTMcVUJpIGXD0', {
-  fetch: window.fetch.bind(window)
 });
+
+
+/* export const tmdb = new TMDB('xxx', {
+  fetch: window.fetch.bind(window)
+}); */
