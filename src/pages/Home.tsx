@@ -11,9 +11,14 @@ function Home() {
   const [totalPages, setTotalPages] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  console.log('Start Home...')
+
   useEffect(() => {
+    console.log('Run effect...');
     (async() => {
+      console.log('Before run api...');
       const popularMovies = (await tmdb.movies.popular()).results;
+      console.log('After run api...');
       setPopularMovies(popularMovies);
       console.log({popularMovies});
       const film = await tmdb.movies.details(155, ['credits']);
