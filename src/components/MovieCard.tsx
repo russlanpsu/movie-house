@@ -1,4 +1,6 @@
+import { IMAGE_BASE_URL } from "../constants";
 import { useFavoritesStore } from "../stores/favoritesStore";
+import { FavButton } from "./FavButton";
 import "./MovieCard.css";
 import type { Movie, MovieDetails } from "tmdb-ts";
 
@@ -19,7 +21,8 @@ export interface MovieCardProps<T = Movie | MovieDetails> {
   isFavorite?: boolean;
   /** Максимум жанров в карточке (по умолчанию 2) */
   maxGenres?: number;
-  onToggleFavorite?: (movie: T) => void;
+  // onToggleFavorite?: (movie: T) => void;
+  onToggleFavorite?: (movieId: number) => void;
   onTrailerClick?: (movie: T) => void;
   /** Клик по постеру или названию, например переход на страницу фильма */
   onOpen?: (movie: T) => void;
@@ -53,7 +56,7 @@ export function MovieCard({
   const isFavorite = useFavoritesStore((state) =>
     state.favorites.includes(movie.id)
   );
-  //TODO: для Movie сделать отображение наименований жанров
+
   const genres = 'genres' in movie ? movie.genres : [];
 
   return (
@@ -65,7 +68,7 @@ export function MovieCard({
           >
             <img
               className="movie-card__img"
-              src={`https://ancient-dream-2e3d.ruslanpsu.workers.dev/t/p/w500/${poster_path}`}
+              src={`${IMAGE_BASE_URL}/t/p/w500/${poster_path}`}
               alt={`Постер фильма «${title}»`}
               loading="lazy"
               // width={260}
@@ -86,7 +89,7 @@ export function MovieCard({
           {vote_average.toFixed(1)}
         </span>
 
-        <button
+        {/* <button
           type="button"
           className="movie-card__fav"
           aria-label={isFavorite ? "Убрать из избранного" : "Добавить в избранное"}
@@ -106,7 +109,14 @@ export function MovieCard({
           >
             <path d="M6 3h12v18l-6-4-6 4z" />
           </svg>
-        </button>
+        </button> */}
+        <div className="movie-card__fav ">
+          <FavButton
+            movie={movie}
+            isFavorite={isFavorite}
+            onToggleFavorite={onToggleFavorite}
+          />
+        </div>
       </div>
 
       <div className="movie-card__body">

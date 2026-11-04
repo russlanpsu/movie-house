@@ -14,6 +14,7 @@ export function MoviePage() {
     if (!id) return;
     (async () => {
       const data = await tmdb.movies.details(Number(id), ['credits']);
+
       setMovie(data);
     })();
   }, [id]);

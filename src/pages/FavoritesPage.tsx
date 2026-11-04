@@ -97,7 +97,7 @@ export function FavoritesPage() {
           <MovieCard
             key={movie.id}
             movie={movie}
-            onToggleFavorite={movie =>toggleFavorite(movie.id)}
+            onToggleFavorite={id =>toggleFavorite(id)}
           />
         ))}
       </div>

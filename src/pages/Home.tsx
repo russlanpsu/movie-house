@@ -99,7 +99,7 @@ function Home() {
                 return genre ? [genre] : [];
               })
             }}
-            onToggleFavorite={movie =>toggleFavorite(movie.id)}
+            onToggleFavorite={toggleFavorite}
           />
         )}
       </div>

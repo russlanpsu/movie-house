@@ -87,7 +87,7 @@
   right: 12px;
   border: 0;
   color: var(--mc-text);
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .movie-card__fav[aria-pressed="true"] {

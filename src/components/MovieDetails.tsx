@@ -1,5 +1,7 @@
 import type { AppendToResponse, MovieDetails } from 'tmdb-ts';
 import styles from './MovieDetails.module.css';
+import { FavButton } from './FavButton';
+import { useFavoritesStore } from '../stores/favoritesStore';
 
 export interface MovieDetailsProps {
   movie: AppendToResponse<MovieDetails, "credits"[], "movie">;
@@ -47,6 +49,9 @@ export function MovieDetails({ movie }: MovieDetailsProps) {
     credits,
   } = movie;
 
+  const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
+  const isFavorite = useFavoritesStore((state) => state.favorites.includes(movie.id));
+
   const releaseYear = release_date ? new Date(release_date).getFullYear() : null;
   const cast = credits?.cast ?? [];
 
@@ -74,6 +79,7 @@ export function MovieDetails({ movie }: MovieDetailsProps) {
           )}
 
           <div className={styles.info}>
+
             <h1 className={styles.title}>
               {title} {releaseYear && <span className={styles.year}>({releaseYear})</span>}
             </h1>
@@ -149,6 +155,11 @@ export function MovieDetails({ movie }: MovieDetailsProps) {
                 </a>
               )}
             </div>
+            <FavButton
+              movie={movie}
+              isFavorite={isFavorite}
+              onToggleFavorite={toggleFavorite}
+            />
           </div>
         </div>
 
@@ -176,12 +187,14 @@ export function MovieDetails({ movie }: MovieDetailsProps) {
               {cast.slice(0, 10).map((actor) => (
                 <li key={actor.id} className={styles.castItem}>
                   {actor.profile_path ? (
-                    <img
-                      className={styles.castPhoto}
-                      src={`${IMAGE_BASE}/w185${actor.profile_path}`}
-                      alt={actor.name}
-                      loading="lazy"
-                    />
+                    <a href={`/person/${actor.id}`}>
+                      <img
+                        className={styles.castPhoto}
+                        src={`${IMAGE_BASE}/w185${actor.profile_path}`}
+                        alt={actor.name}
+                        loading="lazy"
+                      />
+                    </a>
                   ) : (
                     <div className={styles.castPhotoPlaceholder} />
                   )}

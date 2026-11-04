@@ -1,0 +1,1 @@
+export const IMAGE_BASE_URL = 'https://ancient-dream-2e3d.ruslanpsu.workers.dev'
