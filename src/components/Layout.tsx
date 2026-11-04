@@ -2,7 +2,7 @@ import { NavLink, Outlet } from 'react-router-dom'
 import "./Layout.css";
 // import { DebugConsole } from './DebugConsole';
 
-function Layout() {
+export function Layout() {
   return (
     <div className="app-container">
       <header className="app-header">
@@ -25,4 +25,4 @@ function Layout() {
   )
 }
 
-export default Layout
+

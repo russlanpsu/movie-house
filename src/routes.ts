@@ -1,9 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom'
-import Layout from './components/Layout.tsx'
+// import Layout from './components/Layout.tsx'
 import About from './pages/About.tsx'
 import Home from './pages/Home.tsx'
 import { MoviePage } from './pages/MoviePage.tsx'
 import FavoritesPage from './pages/FavoritesPage.tsx'
+import { Layout } from './components/Layout.tsx'
 
 export const router = createBrowserRouter([
   {

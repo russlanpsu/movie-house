@@ -4,8 +4,10 @@ import {MovieCard} from "../components/MovieCard";
 import "./Home.css"
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useFavoritesStore } from "../stores/favoritesStore";
+import { useEffect, useRef } from "react";
 
 function Home() {
+  const loadMoreRef = useRef<HTMLDivElement>(null);
   const {
     data,
     error,
@@ -22,6 +24,34 @@ function Home() {
       return nextPage <= lastPage.total_pages ? nextPage : undefined;
     },
   });
+
+  // 2. Настраиваем IntersectionObserver
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Если элемент виден и есть следующая страница, и сейчас ничего не грузится
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      {
+        // Начинаем загрузку заранее, за 200px до конца списка
+        rootMargin: '200px'
+      }
+    );
+
+    const currentTarget = loadMoreRef.current;
+    if (currentTarget) {
+      observer.observe(currentTarget);
+    }
+
+    // Очистка при размонтировании
+    return () => {
+      if (currentTarget) {
+        observer.unobserve(currentTarget);
+      }
+    };
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   const popularMovies: Movie[] = data?.pages.flatMap((page) => page.results) ?? [];
 
@@ -54,12 +84,17 @@ function Home() {
         )}
       </div>
 
+       {/* 3. Элемент-триггер и индикатор загрузки */}
+      <div ref={loadMoreRef} style={{ height: '20px' }} />
 
-      {hasNextPage && (
+      {isFetchingNextPage && <p>Загрузка...</p>}
+
+
+      {/* {hasNextPage && (
         <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
           {isFetchingNextPage ? "Загрузка…" : "Показать ещё"}
         </button>
-      )}
+      )} */}
     </section>
   )
 }
