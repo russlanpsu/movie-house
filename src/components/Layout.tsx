@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import "./Layout.css";
+import { MovieSearch } from './MovieSearch';
 // import { DebugConsole } from './DebugConsole';
 
 export function Layout() {
@@ -12,6 +13,7 @@ export function Layout() {
             <NavLink to="/favorites" end className="app-nav__link">Favorites</NavLink>
             <NavLink to="/about" className="app-nav__link">About</NavLink>
           </nav>
+          <MovieSearch/>
         </div>
       </header>
       <main className="app-main">

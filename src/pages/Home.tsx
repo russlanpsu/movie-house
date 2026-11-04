@@ -1,13 +1,24 @@
 import { tmdb } from "../api/tmdb/client";
-import type { Genre, Movie } from "tmdb-ts";
+import type { Genre, Movie, MovieDetails } from "tmdb-ts";
 import {MovieCard} from "../components/MovieCard";
 import "./Home.css"
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useFavoritesStore } from "../stores/favoritesStore";
 import { useEffect, useMemo, useRef } from "react";
+import { useInView } from "react-intersection-observer";
+import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
+// import { MovieDetails } from "../components/MovieDetails";
+
+
 
 function Home() {
-  const loadMoreRef = useRef<HTMLDivElement>(null);
+
+   // 1. Хук useInView возвращает ref для элемента-триггера и флаг inView
+  /* const { ref, inView } = useInView({
+    // Начинаем загрузку заранее, за 200px до конца списка
+    rootMargin: '200px',
+  }); */
+
 
   const { data: genresData, isLoading: isGenresLoading } = useQuery({
     queryKey: ['movieGenres'],
@@ -22,6 +33,7 @@ function Home() {
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
+
   } = useInfiniteQuery({
     queryKey: ["popularMovies"],
     queryFn: ({ pageParam }) => tmdb.movies.popular({ page: pageParam }),
@@ -31,38 +43,31 @@ function Home() {
       return nextPage <= lastPage.total_pages ? nextPage : undefined;
     },
     enabled: !!genresData,
+    refetchOnWindowFocus: false,
+    /* refetchOnMount: false,  */
   });
 
-  // 2. Настраиваем IntersectionObserver
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Если элемент виден и есть следующая страница, и сейчас ничего не грузится
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
-
-        }
-      },
-      {
-        // Начинаем загрузку заранее, за 200px до конца списка
-        rootMargin: '200px'
+  const ref = useIntersectionObserver({
+    onIntersect: () => {
+      if (hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
       }
-    );
+    },
+    enabled: hasNextPage && !isFetchingNextPage,
+    rootMargin: "200px",
+  });
 
-    const currentTarget = loadMoreRef.current;
-    if (currentTarget) {
-      observer.observe(currentTarget);
+  /* useEffect(() => {
+    // Проверяем, что триггер виден, есть следующая страница и загрузка не идет
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
     }
-
-    // Очистка при размонтировании
-    return () => {
-      if (currentTarget) {
-        observer.unobserve(currentTarget);
-      }
-    };
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]); */
 
   const popularMovies: Movie[] = data?.pages.flatMap((page) => page.results) ?? [];
+  const uniqueMovies = Array.from(
+    new Map(popularMovies.map((movie) => [movie.id, movie])).values()
+  );
 
   // Создаем Map для быстрого поиска названия жанра по id
   const genresMap = useMemo(() => {
@@ -84,9 +89,9 @@ function Home() {
       {/* Показываем лоадер, если грузится самая первая страница */}
       {(isLoading || isGenresLoading )&& <p>Загрузка фильмов...</p>}
       <div className="movie-list">
-        {popularMovies.map(movie =>
+        {uniqueMovies.map(movie =>
           <MovieCard
-            key={movie.id}
+            key={`${movie.id}|${data?.pageParams[data?.pageParams.length - 1]}`}
             movie={{
               ...movie,
               genres: movie.genre_ids.flatMap((id) => {
@@ -100,7 +105,7 @@ function Home() {
       </div>
 
        {/* 3. Элемент-триггер и индикатор загрузки */}
-      <div ref={loadMoreRef} style={{ height: '20px' }} />
+      <div ref={ref} style={{ height: '20px' }} />
 
       {isFetchingNextPage && <p>Загрузка...</p>}
 
