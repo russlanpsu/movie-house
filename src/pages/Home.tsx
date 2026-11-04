@@ -1,11 +1,11 @@
 import { tmdb } from "../api/tmdb/client";
-import type { Genre, Movie, MovieDetails } from "tmdb-ts";
+import type { Genre, Movie } from "tmdb-ts";
 import {MovieCard} from "../components/MovieCard";
 import "./Home.css"
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useFavoritesStore } from "../stores/favoritesStore";
-import { useEffect, useMemo, useRef } from "react";
-import { useInView } from "react-intersection-observer";
+import { useMemo } from "react";
+// import { useInView } from "react-intersection-observer";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 // import { MovieDetails } from "../components/MovieDetails";
 
