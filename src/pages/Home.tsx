@@ -1,13 +1,20 @@
 import { tmdb } from "../api/tmdb/client";
-import type { Movie } from "tmdb-ts";
+import type { Genre, Movie } from "tmdb-ts";
 import {MovieCard} from "../components/MovieCard";
 import "./Home.css"
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useFavoritesStore } from "../stores/favoritesStore";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 function Home() {
   const loadMoreRef = useRef<HTMLDivElement>(null);
+
+  const { data: genresData, isLoading: isGenresLoading } = useQuery({
+    queryKey: ['movieGenres'],
+    queryFn: () => tmdb.genres.movies(), // Метод tmdb-ts для получения жанров
+    staleTime: Infinity, // Жанры меняются очень редко, можно кешировать надолго
+  });
+
   const {
     data,
     error,
@@ -23,6 +30,7 @@ function Home() {
       const nextPage = allPages.length + 1;
       return nextPage <= lastPage.total_pages ? nextPage : undefined;
     },
+    enabled: !!genresData,
   });
 
   // 2. Настраиваем IntersectionObserver
@@ -32,6 +40,7 @@ function Home() {
         // Если элемент виден и есть следующая страница, и сейчас ничего не грузится
         if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
           fetchNextPage();
+
         }
       },
       {
@@ -55,9 +64,11 @@ function Home() {
 
   const popularMovies: Movie[] = data?.pages.flatMap((page) => page.results) ?? [];
 
-  /* const onToggleFavoriteHandler = (movie: Movie) => {
-    console.log('Toggle favorite: ', movie);
-  } */
+  // Создаем Map для быстрого поиска названия жанра по id
+  const genresMap = useMemo(() => {
+    if (!genresData) return new Map<number, Genre>();
+    return new Map(genresData.genres.map((g) => [g.id, g]));
+  }, [genresData]);
 
   const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
   // const isFavorite = useFavoritesStore((state) => state.isFavorite);
@@ -71,14 +82,18 @@ function Home() {
 
 
       {/* Показываем лоадер, если грузится самая первая страница */}
-      {isLoading && <p>Загрузка фильмов...</p>}
+      {(isLoading || isGenresLoading )&& <p>Загрузка фильмов...</p>}
       <div className="movie-list">
         {popularMovies.map(movie =>
           <MovieCard
             key={movie.id}
-            // isFavorite={isFavorite(movie.id)}
-            // movie={{...movie, genres: [{id:1, name: 'Drama'}, {id:2, name: 'Thriller'}]}}
-            movie={movie}
+            movie={{
+              ...movie,
+              genres: movie.genre_ids.flatMap((id) => {
+                const genre = genresMap.get(id);
+                return genre ? [genre] : [];
+              })
+            }}
             onToggleFavorite={movie =>toggleFavorite(movie.id)}
           />
         )}
