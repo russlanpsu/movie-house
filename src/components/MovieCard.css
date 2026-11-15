@@ -55,8 +55,9 @@
   color: rgba(255, 255, 255, 0.16);
 }
 
-.movie-card__rating,
-.movie-card__fav {
+.movie-card__rating
+/* ,.movie-card__fav  */
+{
   position: absolute;
   top: 12px;
   width: 44px;
@@ -66,6 +67,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.movie-card__favcontainer{
+  position: absolute;
+  top: 12px;
+  right: 12px;
 }
 
 .movie-card__rating {

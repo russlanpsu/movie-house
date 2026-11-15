@@ -1,3 +1,4 @@
+import type { PersonMovieCast } from 'tmdb-ts';
 import type { PersonDetailsEx } from '../api/tmdb/api-utils';
 import { IMAGE_BASE_URL } from '../constants';
 
@@ -136,12 +137,15 @@ const PersonCard = ({ person }: PersonCardProps) => {
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b pb-2">Фильмография (кино)</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {movieCredits.slice(0, 10).map((credit: any) => (
-                  <div key={credit.credit_id} className="bg-gray-50 p-3 rounded-lg shadow-sm">
-                    <p className="font-semibold text-gray-800">{credit.title || credit.original_title}</p>
-                    <p className="text-sm text-gray-600">{credit.character ? `Роль: ${credit.character}` : credit.job}</p>
-                    <p className="text-xs text-gray-500">{credit.release_date?.split('-')[0] || '—'}</p>
-                  </div>
+                {movieCredits.slice(0, 10).map((credit: PersonMovieCast) => (
+                  <a href={`/film/${credit.id}`}>
+                    <div key={credit.credit_id} className="bg-gray-50 p-3 rounded-lg shadow-sm">
+                      <p className="font-semibold text-gray-800">{credit.title || credit.original_title}</p>
+                      {/* <p className="text-sm text-gray-600">{credit.character ? `Роль: ${credit.character}` : credit.job}</p> */}
+                      <p className="text-sm text-gray-600">{`Роль: ${credit.character}`}</p>
+                      <p className="text-xs text-gray-500">{credit.release_date?.split('-')[0] || '—'}</p>
+                    </div>
+                  </a>
                 ))}
               </div>
             </section>

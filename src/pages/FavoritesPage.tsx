@@ -1,4 +1,3 @@
-// src/pages/FavoritesPage.tsx
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import type {  MovieDetails } from 'tmdb-ts';
@@ -6,37 +5,37 @@ import { tmdb } from '../api/tmdb/client';
 import { MovieCard } from '../components/MovieCard';
 import { useFavoritesStore } from '../stores/favoritesStore';
 import './FavoritesPage.css';
+import { motion, AnimatePresence } from 'motion/react';
 
 export function FavoritesPage() {
   // Подписка на список ID из Zustand (он сам читает/пишет localStorage через persist)
   const favorites = useFavoritesStore((state) => state.favorites);
 
   const {
-    data: movies,
+    data: allMovies = [],
     isPending,
     isError,
     error,
   } = useQuery({
     // Ключ включает favorites — при изменении списка запрос перезапустится
-    queryKey: ['favorites', favorites],
-    //queryFn: async (): Promise<Movie[]> => {
+    // queryKey: ['favorites', favorites],
+    queryKey: ['favorites'],
+
     queryFn: async ()  => {
-      // Promise.allSettled: один упавший details(id) не ломает всю страницу
       const results = await Promise.allSettled(
         favorites.map((id) => tmdb.movies.details(id))
       );
 
       return results
-        /* .filter(
-          (r): r is PromiseFulfilledResult<Movie> => r.status === 'fulfilled'
-        )
-        .map((r) => r.value); */
+
         .filter((result) => result.status === 'fulfilled')
         .map((result) => (result as PromiseFulfilledResult<MovieDetails>).value);
     },
     // Не делаем запрос, если избранное пусто
     enabled: favorites.length > 0,
+    refetchOnWindowFocus: false,
   });
+  const movies = allMovies.filter((m) => favorites.includes(m.id));
 
   const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
 
@@ -93,13 +92,26 @@ export function FavoritesPage() {
         {movies.length} {pluralizeMovies(movies.length)}
       </p>
       <div className="movie-list">
-        {movies.map((movie) => (
-          <MovieCard
-            key={movie.id}
-            movie={movie}
-            onToggleFavorite={id =>toggleFavorite(id)}
-          />
-        ))}
+        <AnimatePresence mode="popLayout">
+          {movies.map((movie) => (
+
+            <motion.div
+              key={movie.id}
+              layout
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5, rotate: -10 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+            >
+              <MovieCard
+                key={movie.id}
+                movie={movie}
+                onToggleFavorite={id =>toggleFavorite(id)}
+              />
+            </motion.div>
+
+          ))}
+        </AnimatePresence>
       </div>
     </section>
   );

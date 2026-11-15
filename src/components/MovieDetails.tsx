@@ -2,6 +2,7 @@ import type { AppendToResponse, MovieDetails } from 'tmdb-ts';
 import styles from './MovieDetails.module.css';
 import { FavButton } from './FavButton';
 import { useFavoritesStore } from '../stores/favoritesStore';
+import { FavButton2 } from './FavButton2';
 
 export interface MovieDetailsProps {
   movie: AppendToResponse<MovieDetails, "credits"[], "movie">;
@@ -155,10 +156,11 @@ export function MovieDetails({ movie }: MovieDetailsProps) {
                 </a>
               )}
             </div>
-            <FavButton
-              movie={movie}
+            <FavButton2
+              // movie={movie}
               isFavorite={isFavorite}
-              onToggleFavorite={toggleFavorite}
+              onClick={() => toggleFavorite(movie.id)}
+              // onToggleFavorite={toggleFavorite}
             />
           </div>
         </div>

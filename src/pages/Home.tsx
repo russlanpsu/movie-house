@@ -45,6 +45,9 @@ function Home() {
     enabled: !!genresData,
     refetchOnWindowFocus: false,
     /* refetchOnMount: false,  */
+    // staleTime: 5 * 60 * 1000,
+    // refetchOnMount: false,       // отключает обновление при монтировании, если есть кэш
+    // refetchOnReconnect: false,
   });
 
   const ref = useIntersectionObserver({
@@ -76,22 +79,17 @@ function Home() {
   }, [genresData]);
 
   const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
-  // const isFavorite = useFavoritesStore((state) => state.isFavorite);
 
   return (
     <section>
-      <h1>Home</h1>
-      <p>Главная страница (заглушка)</p>
 
       {error && <div className="error-message">{error.message}</div>}
 
-
-      {/* Показываем лоадер, если грузится самая первая страница */}
       {(isLoading || isGenresLoading )&& <p>Загрузка фильмов...</p>}
       <div className="movie-list">
         {uniqueMovies.map(movie =>
           <MovieCard
-            key={`${movie.id}|${data?.pageParams[data?.pageParams.length - 1]}`}
+            key={movie.id}
             movie={{
               ...movie,
               genres: movie.genre_ids.flatMap((id) => {

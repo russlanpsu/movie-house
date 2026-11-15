@@ -17,14 +17,6 @@ const PersonPage = () => {
       setLoading(true);
       setError(null);
       try {
-        // Запрашиваем дополнительные данные для максимального использования полей
-        /* const data = await tmdb.people.details(Number(id), [
-          'movie_credits',
-          'tv_credits',
-          'combined_credits',
-          'external_ids',
-          'images',
-        ]); */
         const data = await getPeopleDetails(Number(id));
         setPerson(data);
       } catch (err) {

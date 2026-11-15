@@ -1,22 +1,11 @@
 import { IMAGE_BASE_URL } from "../constants";
 import { useFavoritesStore } from "../stores/favoritesStore";
-import { FavButton } from "./FavButton";
+import { FavButton2 } from "./FavButton2";
 import "./MovieCard.css";
 import type { Movie, MovieDetails } from "tmdb-ts";
 
-/* export interface Movie {
-  id: string | number;
-  title: string;
-  year: number;
-  durationMin: number;
-  ageRating: string;
-  rating: number;
-  genres: string[];
-  posterUrl?: string;
-} */
 
 export interface MovieCardProps<T = Movie | MovieDetails> {
-  // movie: Movie;
   movie: T;
   isFavorite?: boolean;
   /** Максимум жанров в карточке (по умолчанию 2) */
@@ -110,11 +99,11 @@ export function MovieCard({
             <path d="M6 3h12v18l-6-4-6 4z" />
           </svg>
         </button> */}
-        <div className="movie-card__fav ">
-          <FavButton
-            movie={movie}
+        <div className="movie-card__favcontainer">
+          <FavButton2
             isFavorite={isFavorite}
-            onToggleFavorite={onToggleFavorite}
+            onClick={() => onToggleFavorite?.(movie.id)}
+            // onToggleFavorite={onToggleFavorite}
           />
         </div>
       </div>
