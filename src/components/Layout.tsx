@@ -12,6 +12,7 @@ export function Layout() {
             <NavLink to="/" end className="app-nav__link">Home</NavLink>
             <NavLink to="/favorites" end className="app-nav__link">Favorites</NavLink>
             <NavLink to="/about" className="app-nav__link">About</NavLink>
+            <NavLink to="/demo" className="app-nav__link">Demo</NavLink>
           </nav>
           <MovieSearch/>
         </div>

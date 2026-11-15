@@ -1,6 +1,7 @@
 import type { PersonMovieCast } from 'tmdb-ts';
 import type { PersonDetailsEx } from '../api/tmdb/api-utils';
 import { IMAGE_BASE_URL } from '../constants';
+import LightboxGallery from './LightboxGallery';
 
 
 interface PersonCardProps {
@@ -171,7 +172,7 @@ const PersonCard = ({ person }: PersonCardProps) => {
           {images.length > 0 && (
             <section>
               <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b pb-2">Фотографии</h2>
-              <div className="flex gap-2 overflow-x-auto pb-2">
+              {/* <div className="flex gap-2 overflow-x-auto pb-2">
                 {images.slice(0, 6).map((img: any) => (
                   <img
                     key={img.file_path}
@@ -180,7 +181,14 @@ const PersonCard = ({ person }: PersonCardProps) => {
                     className="h-32 w-auto object-cover rounded-lg shadow"
                   />
                 ))}
-              </div>
+              </div> */}
+
+              <LightboxGallery
+                images={images.map(x => ({
+                  thumbnailUrl: `${IMAGE_BASE_URL}/t/p/w500/${x.file_path}`,
+                  fullUrl: `${IMAGE_BASE_URL}/t/p/original/${x.file_path}`
+                }))}
+              />
             </section>
           )}
         </div>

@@ -6,6 +6,7 @@ import { MoviePage } from './pages/MoviePage.tsx'
 import FavoritesPage from './pages/FavoritesPage.tsx'
 import { Layout } from './components/Layout.tsx'
 import PersonPage from './pages/PersonPage.tsx'
+import LightboxDemo from './components/LightboxDemo.tsx'
 
 export const router = createBrowserRouter([
   {
@@ -16,7 +17,8 @@ export const router = createBrowserRouter([
       { path: 'about', Component: About },
       { path: 'film/:id', Component: MoviePage },
       { path: 'person/:id', Component: PersonPage },
-      { path: 'favorites', Component: FavoritesPage}
+      { path: 'favorites', Component: FavoritesPage},
+      { path: 'demo', Component: LightboxDemo},
     ],
   },
 ])
