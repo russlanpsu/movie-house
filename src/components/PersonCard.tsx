@@ -138,7 +138,7 @@ const PersonCard = ({ person }: PersonCardProps) => {
               <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b pb-2">Фильмография (кино)</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {movieCredits.slice(0, 10).map((credit: PersonMovieCast) => (
-                  <a href={`/film/${credit.id}`}>
+                  <a key={credit.credit_id} href={`/film/${credit.id}`}>
                     <div key={credit.credit_id} className="bg-gray-50 p-3 rounded-lg shadow-sm">
                       <p className="font-semibold text-gray-800">{credit.title || credit.original_title}</p>
                       {/* <p className="text-sm text-gray-600">{credit.character ? `Роль: ${credit.character}` : credit.job}</p> */}

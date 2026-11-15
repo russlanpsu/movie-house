@@ -1,6 +1,6 @@
 import type { AppendToResponse, MovieDetails } from 'tmdb-ts';
 import styles from './MovieDetails.module.css';
-import { FavButton } from './FavButton';
+// import { FavButton } from './FavButton';
 import { useFavoritesStore } from '../stores/favoritesStore';
 import { FavButton2 } from './FavButton2';
 
