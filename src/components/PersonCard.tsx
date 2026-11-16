@@ -1,6 +1,6 @@
 import type { PersonMovieCast } from 'tmdb-ts';
 import type { PersonDetailsEx } from '../api/tmdb/api-utils';
-import { IMAGE_BASE_URL } from '../constants';
+import { profileUrl } from '../api/tmdb/images';
 import LightboxGallery from './LightboxGallery';
 
 
@@ -30,12 +30,24 @@ const PersonCard = ({ person }: PersonCardProps) => {
       <div className="md:flex">
         {/* Левая колонка: Фото и основная информация */}
         <div className="md:w-1/3 bg-gray-50 p-6 flex flex-col items-center">
-          {person.profile_path ? (
-            <img
+          {/* <img
               src={`${IMAGE_BASE_URL}/t/p/w500/${person.profile_path}`}
               alt={person.name}
               className="w-64 h-64 object-cover rounded-full shadow-lg border-4 border-white"
+            /> */}
+          {person.profile_path ? (
+
+            <LightboxGallery
+              className=""
+              itemClassName="rounded-full shadow-lg border-4 border-white"
+              imageClassName="w-64 h-64 object-cover transition-opacity hover:opacity-85"
+              alt={person.name}
+              images={[{
+                thumbnailUrl: profileUrl(person.profile_path, 'h632'),
+                fullUrl: profileUrl(person.profile_path, 'original'),
+              }]}
             />
+
           ) : (
             <div className="w-64 h-64 rounded-full bg-gray-300 flex items-center justify-center text-gray-500 shadow-lg border-4 border-white">
               Нет фото
@@ -185,8 +197,8 @@ const PersonCard = ({ person }: PersonCardProps) => {
 
               <LightboxGallery
                 images={images.map(x => ({
-                  thumbnailUrl: `${IMAGE_BASE_URL}/t/p/w500/${x.file_path}`,
-                  fullUrl: `${IMAGE_BASE_URL}/t/p/original/${x.file_path}`
+                  thumbnailUrl: profileUrl(x.file_path, 'h632'),
+                  fullUrl: profileUrl(x.file_path, 'original'),
                 }))}
               />
             </section>

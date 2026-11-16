@@ -1,4 +1,4 @@
-import { IMAGE_BASE_URL } from "../constants";
+import { posterUrl } from "../api/tmdb/images";
 import { useFavoritesStore } from "../stores/favoritesStore";
 import { FavButton2 } from "./FavButton2";
 import "./MovieCard.css";
@@ -57,7 +57,7 @@ export function MovieCard({
           >
             <img
               className="movie-card__img"
-              src={`${IMAGE_BASE_URL}/t/p/w500/${poster_path}`}
+              src={posterUrl(poster_path)}
               alt={`Постер фильма «${title}»`}
               loading="lazy"
               // width={260}
