@@ -18,6 +18,19 @@ const queryClient = new QueryClient( {
   },
 } );
 
+// src/index.js или src/main.jsx
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then((registration) => {
+        console.log('ServiceWorker зарегистрирован с областью:', registration.scope);
+      })
+      .catch((error) => {
+        console.error('Ошибка регистрации ServiceWorker:', error);
+      });
+  });
+}
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
